@@ -1,35 +1,30 @@
 const express = require("express");
-
 const bodyParser = require("body-parser");
 
 const { PORT } = require("./config/serverConfig");
 
-const { sendBasicEmail } = require("./Services/Email_Service");
+// const { sendBasicEmail } = require('./services/email-service');
+const TicketController = require("./controllers/ticket-controller");
 
-const jobs = require("./utils/jobs");
+const jobs = require("./utils/job");
 
-const TicketController = require("./Controllers/TicketController");
-
-const SetupAndStartServer = () => {
+const setupAndStartServer = () => {
   const app = express();
-
   app.use(bodyParser.json());
-
   app.use(bodyParser.urlencoded({ extended: true }));
 
-  app.post("/api/v1/ticket", TicketController.create);
+  app.post("/api/v1/tickets", TicketController.create);
 
   app.listen(PORT, () => {
-    console.log("Server started on port", PORT);
+    console.log(`Server started at port ${PORT}`);
     jobs();
-
     // sendBasicEmail(
-    //   "support@gmail.com",
-    //   "menodejs@gmail.com",
-    //   "this is testing email",
-    //   "Hi whats up"
+    //     'support@admin.com',
+    //     'moviebookingappservice@gmail.com',
+    //     'This is a testing email',
+    //     'Hey, how are you, I hope you like the support'
     // );
   });
 };
 
-SetupAndStartServer();
+setupAndStartServer();
